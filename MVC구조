@@ -1,0 +1,23 @@
+1. 유지보수 좋음
+
+
+ - MVC구조(View -> Controller -> Service -> DAO -> DB연동)
+	   반대 순서로 와서 호출 결과 받고 최종 View 호출
+
+   - Model : Service영역(Business Logic : 알고리즘구현)
+             DAO(Data Access Object) - DB연동부분
+	     DTO(Data Transfer Object ) = VO(Value Object)
+
+   -View : GUI구현(화면구성) : 검색, 수정, 등록, 삭제 화면
+
+   -Controller : Model과 View 사이에서 중간자 역할.     //Controller가 사이에서 중간자 역할을 하며 연결도 해주고 제어도 해줌
+							//둘은 서로 바로 호출 못하고 Controller를 통해서만
+                 사용자 요청이 들어오면 그 요청에 해당하는 
+		 Service -> DAO 등을 호출해주고 그 결과를 받아
+		 결과에 해당하는 View쪽을 호출해준다.
+		 
+		 사용자로부터 받은 요청에 해당하는 Model(Service) 호출
+
+
+ -MVC구조를 사용해야하는 이유 : 유지보수, 재사용을 높히고
+                                생산성을 좋게 하기 위함.
