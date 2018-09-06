@@ -36,11 +36,16 @@ class ElectronicsController{
 	*/
 
 	public static void update(Electronics elec){   //3개 다 오니깐
-		//service 호출 -> 그 결과 받아서 -> EndView 호출
-		Electronics elec = service.update(elec);
+		//존재유무 체크하고 없으면 오류 메시지 있으면 수정
 
-		if(elec ==false) EndView.printMessage("수정 실패");
-		else EndView.printMessage("수정 성공");
+		Electronics searchElec = service.searchByModelNo(elec.getModelNo());  
+		//elec 안에 ModelNo 있음   //searchElec으로 해야함, elec과 다름(searchElec은 들어있는 데이터)
+		
+		if(searchElec ==null) EndView.printMessage(elec.getModelNo()+" 수정 실패");
+		else{
+			service.update(elec);  //변경할 매개변수인 elec을 받아와야 함
+			EndView.printMessage(elec.getModelNo()+" 수정 성공");
+		}
 	}
 
 	/**
@@ -48,5 +53,13 @@ class ElectronicsController{
 	*/
 
 	public static void insert(Electronics elec){  //등록할 것 4개니깐, 외부에서 접근 가능하도록 static 붙임
+		
+		if(service.insert(elec)){
+
+			EndView.printMessage("상품등록이 완료되었습니다.");
+
+		}else{
+			EndView.printMessage("상품등록되지 않았습니다.");  //내용 알려주지 않음, 보안 뚫리지 않기 위해
+		}
 	}
 }
