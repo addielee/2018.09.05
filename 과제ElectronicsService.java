@@ -59,7 +59,7 @@ class ElectronicsService{
 	}
 
 	/**
-		2.모델번호에 해당하는 검색
+		2.모델번호에 해당하는 검색 = 모델번호에 해당하는 상품 있다 없다 체크
 	*/
 
 	public Electronics searchByModelNo(int modelNo){    //modelNo는 하나이기 때문에 배열이 아님!!!!!!!!
@@ -78,15 +78,14 @@ class ElectronicsService{
 	*/
 
 	public boolean update(Electronics elec){  //관리가 용이, 3개라서 다 받아올 바에 Electronics elec으로 인수 하나 받아옴
-		for(int i=0; i<count ; i++){
-			if(elecArr[i].getModelNo() == modelNo){
-				setModelPrice(modelPrice);
-				setModelDetail(modelDetail);
+		//인수로 전달된 상품코드를 배열에서 찾아 변경한다
+		Electronics searchElec = this.searchByModelNo(elec.getModelNo());  //위 메소드 받아서 모델 번호 찾음
 
+		searchElec.setModelPrice(elec.getModelPrice());  //가격변경 , 키보드 입력받은 거 Electronics elec에 담겨 있음
+		searchElec.setModelDetail(elec.getModelDetail()); // 설명변경
+		
+		//controller에서 이미 오류가 날 거 체크했기 때문에 여기서 boolean 체크할 필요 없음
 				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -95,6 +94,19 @@ class ElectronicsService{
 	*/
 
 	public boolean insert(Electronics elec){   //Electronics elec 하나에 4개 들어올 수 있으니깐
-		return false;
+		
+		Electronics searchElec = this.searchByModelNo(elec.getModelNo());  //있는지 없는지 알아야하니깐 체크
+		
+		if(count >= elecArr.length) return false;
+		//배열의 경계를 벗어남
+
+		if(searchElec != null){  //존재한다
+			return false;
+		}
+
+		elecArr[count]=elec;  //등록 = 추가
+		count++;  //하나 등록되었으니 count 추가 
+
+		return true;  //정상 작동
 	}
 }
